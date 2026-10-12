@@ -1,0 +1,25 @@
+dataset:
+  split: smoke
+  assignment_seed: 42
+  seeds:
+  - 0
+generation:
+  family: sd15
+  checkpoint: stable-diffusion-v1-5/stable-diffusion-v1-5
+  revision: main
+  width: 512
+  height: 512
+  steps: 30
+  guidance_scale: 7.5
+  cpu_offload: true
+evaluation:
+  qwen_checkpoint: Qwen/Qwen2.5-VL-7B-Instruct
+  qwen_revision: main
+  owl_checkpoint: google/owlv2-base-patch16-ensemble
+  owl_revision: main
+  qwen_cpu_offload: true
+  cpu_memory: 8GiB
+  max_pixels: 1003520
+  max_new_tokens: 16
+  threshold: 0.2
+  nms_iou: 0.5

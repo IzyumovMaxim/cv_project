@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "attribute-interference"
+version = "0.1.0"
+description = "Controlled text-to-image attribute interference evaluation"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6,<7", "Pillow>=10", "numpy>=1.26,<3", "matplotlib>=3.8,<4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9"]
+
+[project.scripts]
+attribute-interference = "attribute_interference.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

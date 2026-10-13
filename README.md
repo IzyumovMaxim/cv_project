@@ -2,7 +2,7 @@
 
 This repository implements the data preparation, frozen-model generation, evaluation and descriptive analysis pipeline for project P40. The first submission target is **SD 1.5 on all 576 main prompts and four seeds: 2,304 images**. SDXL uses the same prompts and seeds for a later comparison. No models are trained or fine-tuned.
 
-**Validation status:** CPU software tests and data preparation can run locally. CUDA inference, checkpoint downloads and real baseline results must be verified in Colab or on an NVIDIA GPU. The pinned inference stack is a candidate stack until the GPU smoke run passes. Synthetic test fixtures are not experiment results.
+**Validation status:** CPU software tests and data preparation run locally. The pinned inference stack passed the SD 1.5 smoke test on a Colab T4 GPU, and the full SD 1.5 baseline has been generated and evaluated (see [Executed SD 1.5 baseline run](#executed-sd-15-baseline-run)). Those evaluation results are **preliminary**: they use an 8-bit quantized Qwen evaluator and no reviewed evaluator freeze. Synthetic test fixtures are not experiment results.
 
 ## Dataset and experimental boundaries
 
@@ -33,7 +33,7 @@ pytest -q
 
 On a restricted macOS/Python 3.14 setup, hidden editable `.pth` files may be ignored. If the installed command cannot import the package, use a regular `pip install .` installation (reinstall after source edits), or run with `PYTHONPATH=src`.
 
-For CUDA inference, use the cells in `notebooks/colab.ipynb`, or install on a GPU server:
+For CUDA inference, use `notebooks/sd15_baseline_generation_evaluation.ipynb` in Colab (see below), or install on a GPU server:
 
 ```bash
 pip install -r requirements-colab.txt
@@ -56,7 +56,7 @@ Every run saves the model commits, scheduler config, package versions, CUDA/GPU 
 
 ## Run in order
 
-All commands accept `--config` and `--output`. Keep the output directory unchanged when resuming. In Colab, place it under mounted Google Drive. The notebook accepts either a cloned repository or an uploaded repository ZIP; no remote repository URL is assumed.
+All commands accept `--config` and `--output`. Keep the output directory unchanged when resuming. In Colab, place it under mounted Google Drive.
 
 ### 1. Technical smoke tests
 
@@ -101,6 +101,51 @@ attribute-interference analyze --config configs/main_sd15.yaml --output outputs/
 ```
 
 Main evaluation requires the matching frozen pilot settings. Generation is complete only when all **2,304 images** exist. Scoring completion is reported separately; unknown answers remain visible and must be discussed rather than hidden. Repeat the same commands with `main_sdxl.yaml` and its own directory for the later model comparison.
+
+## Executed SD 1.5 baseline run
+
+The full SD 1.5 baseline was run in Google Colab with `notebooks/sd15_baseline_generation_evaluation.ipynb`. The notebook contains every stage in order: repository setup, dependencies, GPU check, Google Drive mount, smoke test, generation, generation summary, OWLv2 evaluation, Qwen evaluation, progress check and analysis. All stages are resumable, so rerunning the notebook on an existing output directory skips completed work.
+
+**Environment.** Google Colab, NVIDIA Tesla T4 (14.6 GiB), Python 3.13, pinned stack from `requirements-colab.txt` plus `bitsandbytes==0.47.0`. Source commit `0de4f3a` (the `src/` and `configs/` directories are unchanged since). Outputs were written to Google Drive under `attribute_interference/v1/`.
+
+### Stages
+
+1. **Smoke test.** `configs/smoke.yaml`, 8 SD 1.5 images, generation only. Passed.
+2. **Generation.** `configs/main_sd15.yaml`, 576 prompts × seeds 0–3. 2,301 of 2,304 images were generated; the mean generation time was 6.6 s per image. Three images were rejected by the SD 1.5 safety checker (false NSFW flags, all seed 1): `6e6d5e277f4477f4_s1`, `685d50e47cd34ca8_s1`, `d312e804d7899066_s1`. Seeds are fixed, so regenerating them reproduces the same output; they are kept as recorded generation errors rather than hidden.
+3. **OWLv2 evaluation.** Unchanged FP32 detector. 1,727 of 1,727 applicable images (prompts with a count or position factor) evaluated, 0 errors, roughly one hour on the T4.
+4. **Qwen2.5-VL-7B evaluation.** 2,301 of 2,301 images evaluated, 0 errors, 0 unparseable answers, roughly 2.5 hours on the T4 (about 15 images per minute).
+5. **Analysis.** Metrics, figures and failure examples computed from the combined OWLv2 and Qwen labels.
+
+### Deviations from the protocol
+
+These results are preliminary and must be reported as such.
+
+- **No evaluator freeze.** Main evaluation normally requires `evaluator_freeze.json` from the reviewed SDXL development pilot (section 2 of [Run in order](#run-in-order)). The pilot and its human review have not been done yet, so the notebook skips the freeze check without modifying any file in `src/`; the source hash therefore still matches the generation run. The run directory is marked with `PRELIMINARY_UNFROZEN.json`. Evaluator accuracy has not been validated against human labels.
+- **8-bit quantized Qwen.** In FP16 with CPU offload, Qwen does not fit on a T4 and is too slow for 2,301 images in one session. It was loaded with bitsandbytes 8-bit quantization (vision encoder and output head kept in FP16), which fits entirely on the GPU. A spot check of raw answers showed well-formed Yes/No responses consistent with the images. The run directory is marked with `QWEN_INT8_NOTE.json`.
+- **Separate storage.** Quantized answers are stored in `qwen_int8_records/`, not `qwen_records/`, so they never mix with a future FP16 evaluation. Final results are copied to `analysis_qwen_int8/` with a `NOTE.txt`. The `analysis/` directory and `labels.csv` in the run root are regenerated by any later `analyze` call and should not be cited.
+
+### Outputs
+
+| Location (Google Drive, `attribute_interference/v1/main_sd15/`) | Contents |
+|---|---|
+| `images/`, `generation_records/` | 2,301 PNG images and per-image generation records |
+| `owl_records/` | OWLv2 boxes and scores |
+| `qwen_int8_records/` | Raw and parsed 8-bit Qwen answers |
+| `analysis_qwen_int8/` | `summary.json`, `attributes.csv`, `by_complexity.csv`, `interference.csv`, `singletons.csv`, `labels.csv`, figures, `failure_cases.html`, `NOTE.txt` |
+
+The image collection stays on Drive and is not committed to Git.
+
+### Reproducing in Colab
+
+1. Open the notebook in Colab, select a T4 GPU runtime and run cells 1 and 2.
+2. Restart the session, then run cell 1 and all following cells.
+3. Mount the Google Drive account that holds `attribute_interference/v1/` (or a shortcut to it with editor access).
+
+With existing outputs, generation and evaluation report that all jobs are complete and only the analysis is recomputed.
+
+### Next steps
+
+To replace the preliminary evaluation: run the SDXL development pilot, review the 24 exported images, run `freeze-evaluator`, then run the standard FP16 evaluation of `main_sd15` with `--frozen`. Images do not need to be regenerated. Evaluator settings in `pilot_sdxl.yaml` and `main_sd15.yaml` are identical, so a freeze from the pilot applies directly. The full SDXL comparison remains future work.
 
 ## Resuming and memory
 

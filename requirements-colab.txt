@@ -12,3 +12,4 @@ Pillow==11.3.0
 numpy==2.2.6
 matplotlib==3.10.6
 pytest==8.4.2
+bitsandbytes==0.48.1

@@ -78,6 +78,11 @@ def load_config(path):
         raise ValueError('Main experiments require all four seeds [0, 1, 2, 3]')
     if cfg['generation']['family'] not in {'sd15', 'sdxl'}:
         raise ValueError('Generator family must be sd15 or sdxl')
+    mode = cfg['evaluation'].get('qwen_quantization', 'none')
+    if mode not in {'none', 'nf4'}:
+        raise ValueError('qwen_quantization must be none or nf4')
+    if mode == 'nf4' and cfg['evaluation']['qwen_cpu_offload']:
+        raise ValueError('NF4 Qwen runs on GPU; set qwen_cpu_offload to false')
     return cfg
 
 
@@ -112,6 +117,13 @@ def model_revision(root, role, checkpoint, revision):
 def record_environment(root, role, torch):
     packages = ['torch', 'torchvision', 'diffusers', 'transformers', 'accelerate',
                 'huggingface-hub', 'safetensors', 'Pillow', 'numpy']
+    if role == 'qwen':
+        try:
+            importlib.metadata.version('bitsandbytes')
+        except importlib.metadata.PackageNotFoundError:
+            pass
+        else:
+            packages.append('bitsandbytes')
     env = {'python': platform.python_version(), 'platform': platform.platform(),
            'gpu': torch.cuda.get_device_name(0), 'cuda': torch.version.cuda,
            'packages': {p: importlib.metadata.version(p) for p in packages}}

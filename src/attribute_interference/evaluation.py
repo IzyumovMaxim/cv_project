@@ -126,19 +126,28 @@ def ensure_freeze(cfg, root, frozen):
 
 class QwenEvaluator:
     def __init__(self, cfg, root, torch):
-        from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
+        from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration, BitsAndBytesConfig
         self.torch = torch
         e = cfg['evaluation']
         revision = model_revision(root, 'qwen', e['qwen_checkpoint'], e['qwen_revision'])
         kwargs = {'device_map': 'auto', 'torch_dtype': torch.float16,
-                  'attn_implementation': 'sdpa', 'revision': revision}
-        if e['qwen_cpu_offload']:
+                  'attn_implementation': 'sdpa', 'revision': revision,
+                  'low_cpu_mem_usage': True}
+        mode = e.get('qwen_quantization', 'none')
+        if mode == 'nf4':
+            kwargs['device_map'] = {'': 0}
+            kwargs['quantization_config'] = BitsAndBytesConfig(
+                load_in_4bit=True, bnb_4bit_quant_type='nf4',
+                bnb_4bit_compute_dtype=torch.float16, bnb_4bit_use_double_quant=True)
+        elif e['qwen_cpu_offload']:
             available = int(torch.cuda.get_device_properties(0).total_memory / 1024**3)
             kwargs['max_memory'] = {0: f'{max(1, available - 3)}GiB', 'cpu': e['cpu_memory']}
             kwargs['offload_folder'] = str(Path(root) / '.offload')
         else:
             kwargs['device_map'] = {'': 0}
+        print(f'Loading Qwen: quantization={mode}, device_map={kwargs["device_map"]}', flush=True)
         self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(e['qwen_checkpoint'], **kwargs).eval()
+        print('Qwen loaded; starting image evaluation.', flush=True)
         self.processor = AutoProcessor.from_pretrained(e['qwen_checkpoint'], revision=revision,
                                                        min_pixels=256*28*28, max_pixels=e['max_pixels'])
         self.max_tokens = e['max_new_tokens']

@@ -9,7 +9,7 @@ import types
 import pytest
 from PIL import Image
 
-from attribute_interference.analysis import compute_metrics, analyze
+from attribute_interference.analysis import compute_metrics, analyze, holm, mcnemar_p
 from attribute_interference.annotation import export_annotations, freeze_evaluator
 from attribute_interference.evaluation import (correct_position, ensure_freeze, export_labels,
     filter_boxes, fused_labels, parse_count, parse_yes_no, questions)
@@ -98,7 +98,8 @@ def test_missing_object_and_unknown_labels():
 
 
 def test_coverage_and_matched_pairs():
-    ps = [{'prompt_id':'a','active':['C'],'complexity':1}, {'prompt_id':'b','active':['C','N'],'complexity':2}]
+    ps = [{'prompt_id':'a','object':'cup','active':['C'],'complexity':1},
+          {'prompt_id':'b','object':'cup','active':['C','N'],'complexity':2}]
     jobs = [{'image_id':f'{p}_s{s}','prompt_id':p,'seed':s} for p in ['a','b'] for s in [0,1]]
     labels = [
         {'image_id':'a_s0','prompt_id':'a','seed':0,'object':True,'C':True},
@@ -112,8 +113,42 @@ def test_coverage_and_matched_pairs():
     cn = next(r for r in result['interference'] if r['checked_factor']=='C' and r['added_factor']=='N')
     assert cn['eligible_pairs']==1 and cn['potential_pairs']==2
     assert cn['delta_accuracy']==-1 and cn['flip_rate']==1
+    assert cn['gains']==0 and cn['mcnemar_p']==1 and cn['delta_ci_low']==cn['delta_ci_high']==-1
     empty = compute_metrics(ps,jobs,[],[])
     assert empty['strict']['accuracy'] is None and empty['strict']['coverage']==0
+
+
+def test_mcnemar_and_holm():
+    assert mcnemar_p(0, 0) is None
+    assert mcnemar_p(10, 0) == pytest.approx(2 / 2**10)
+    assert mcnemar_p(3, 3) == 1
+    assert holm([0.01, None, 0.04, 0.03]) == [pytest.approx(0.03), None, pytest.approx(0.06), pytest.approx(0.06)]
+
+
+def test_nonadditivity_and_bootstrap():
+    ps, jobs, labels, pairs = [], [], [], []
+    sets = {'': [], 'n': ['N'], 'p': ['P'], 'np': ['N', 'P']}
+    for obj in ['cup', 'vase', 'lamp']:
+        for key, extra in sets.items():
+            pid = f'{obj}{key}'
+            ps.append({'prompt_id': pid, 'object': obj, 'active': ['C'] + extra, 'complexity': 1 + len(extra)})
+            for seed in range(4):
+                jobs.append({'image_id': f'{pid}_s{seed}', 'prompt_id': pid, 'seed': seed})
+                labels.append({'image_id': f'{pid}_s{seed}', 'prompt_id': pid, 'seed': seed, 'object': True,
+                               'C': key != 'np', 'N': True, 'P': True})
+        pairs += [{'base_id': f'{obj}', 'added_id': f'{obj}n', 'added_factor': 'N'},
+                  {'base_id': f'{obj}p', 'added_id': f'{obj}np', 'added_factor': 'N'}]
+    result = compute_metrics(ps, jobs, labels, pairs, draws=200)
+    row = next(r for r in result['nonadditivity'] if r['checked_factor'] == 'C')
+    assert row['added_factors'] == 'N|P' and row['additive_prediction'] == 0
+    assert row['observed_delta'] == row['interaction'] == -1 and row['ci_low'] == row['ci_high'] == -1
+    summary = next(r for r in result['nonadditivity_summary'] if r['checked_factor'] == 'C')
+    assert summary['k'] == 2 and summary['sets'] == 1 and summary['mean_interaction'] == -1
+    cn = next(r for r in result['interference'] if r['checked_factor'] == 'C' and r['added_factor'] == 'N')
+    assert cn['delta_accuracy'] == -0.5 and cn['flips'] == 12 and cn['gains'] == 0
+    assert cn['delta_ci_low'] <= -0.5 <= cn['delta_ci_high']
+    assert cn['mcnemar_p_holm'] >= cn['mcnemar_p']
+    assert result['bootstrap']['objects'] == 3 and result['bootstrap']['seed'] == 0
 
 
 def test_config_and_data_immutability(tmp_path):
@@ -200,6 +235,7 @@ def test_analysis_artifacts(tmp_path):
     assert result['strict']['accuracy']==0
     assert len(read_csv(tmp_path/'analysis'/'failure_cases.csv'))==6
     assert (tmp_path/'analysis'/'interference.png').stat().st_size>0
+    assert (tmp_path/'analysis'/'nonadditivity.csv').exists()
 
 
 def test_review_and_freeze(tmp_path):
@@ -301,3 +337,73 @@ def test_hardware_change_recorded_software_change_rejected(tmp_path, monkeypatch
     monkeypatch.setattr(storage.importlib.metadata,'version',lambda name:'changed-version')
     with pytest.raises(ValueError,match='Software versions changed'):
         storage.record_environment(tmp_path,'qwen',torch)
+
+
+@pytest.mark.parametrize('mode,offload', [('nf4',False),('none',True)])
+def test_qwen_loading_quantization(tmp_path, monkeypatch, mode, offload):
+    import attribute_interference.evaluation as evaluation
+    captured={}
+    class BnbConfig:
+        def __init__(self,**kwargs): self.options=kwargs
+    class Model:
+        @classmethod
+        def from_pretrained(cls,checkpoint,**kwargs): captured.update(kwargs); return cls()
+        def eval(self): return self
+    class Processor:
+        @classmethod
+        def from_pretrained(cls,*a,**kw): return cls()
+    monkeypatch.setitem(sys.modules,'transformers',types.SimpleNamespace(
+        AutoProcessor=Processor,Qwen2_5_VLForConditionalGeneration=Model,BitsAndBytesConfig=BnbConfig))
+    monkeypatch.setattr(evaluation,'model_revision',lambda *a:'fixture-sha')
+    cfg=config(); cfg['evaluation'].update(qwen_quantization=mode,qwen_cpu_offload=offload)
+    torch=types.SimpleNamespace(float16='fp16',cuda=types.SimpleNamespace(
+        get_device_properties=lambda i:types.SimpleNamespace(total_memory=16*1024**3)))
+    evaluation.QwenEvaluator(cfg,tmp_path,torch)
+    assert captured['low_cpu_mem_usage'] is True
+    assert captured['torch_dtype']=='fp16'
+    if mode=='nf4':
+        assert captured['device_map']=={'':0}
+        assert 'max_memory' not in captured and 'offload_folder' not in captured
+        assert captured['quantization_config'].options==dict(load_in_4bit=True,
+            bnb_4bit_quant_type='nf4',bnb_4bit_compute_dtype='fp16',bnb_4bit_use_double_quant=True)
+    else:
+        assert captured['device_map']=='auto' and 'quantization_config' not in captured
+
+
+def test_quantization_changes_evaluator_signature_and_validates(tmp_path):
+    import yaml
+    from attribute_interference.evaluation import evaluator_signature
+    cfg=config(); other=copy.deepcopy(cfg)
+    other['evaluation'].update(qwen_quantization='none',qwen_cpu_offload=True)
+    assert evaluator_signature(cfg)!=evaluator_signature(other)
+    cfg['evaluation']['qwen_cpu_offload']=True
+    path=tmp_path/'invalid.yaml'; path.write_text(yaml.safe_dump(cfg))
+    with pytest.raises(ValueError,match='NF4 Qwen'):
+        load_config(path)
+
+
+def test_reuse_images_without_labels(tmp_path):
+    from attribute_interference.migration import reuse_generation
+    new=config('smoke'); old=copy.deepcopy(new)
+    old['evaluation'].update(qwen_quantization='none',qwen_cpu_offload=True)
+    source,target=tmp_path/'old',tmp_path/'nf4'
+    prepare(old,source); prepare(new,target)
+    p=load_prompts(source)[0]; key,image=write_fixture(source,p,0)
+    before=(source/'run.json').read_bytes()
+    reuse_generation(new,target,source)
+    assert (target/'images'/image.name).read_bytes()==image.read_bytes()
+    assert (source/'run.json').read_bytes()==before
+    assert not (target/'qwen_records').exists() and not (target/'owl_records').exists()
+    assert not (target/'evaluator_freeze.json').exists()
+    assert len(pending_jobs(new,target))==7
+    verify_run(new,target)
+    with pytest.raises(ValueError,match='already contains results'):
+        reuse_generation(new,target,source)
+
+
+def test_reuse_rejects_changed_generation(tmp_path):
+    from attribute_interference.migration import reuse_generation
+    cfg=config('smoke'); prepare(cfg,tmp_path/'old')
+    cfg['generation']['steps']=20; prepare(cfg,tmp_path/'new')
+    with pytest.raises(ValueError,match='generation settings differ'):
+        reuse_generation(cfg,tmp_path/'new',tmp_path/'old')

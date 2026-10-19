@@ -47,7 +47,7 @@ Restart a notebook runtime after installing/replacing Torch or Transformers. The
 - **SD 1.5:** `stable-diffusion-v1-5/stable-diffusion-v1-5`, 512 × 512, FP16.
 - **SDXL:** `stabilityai/stable-diffusion-xl-base-1.0`, 1024 × 1024, FP16, no refiner.
 - Both: 30 inference steps, guidance scale 7.5, batch size 1, checkpoint scheduler, no added negative prompt, CPU model offload and VAE slicing/tiling.
-- **Qwen:** `Qwen/Qwen2.5-VL-7B-Instruct`, FP16 **without quantization**, deterministic decoding, SDPA, 16 output tokens per question, 256–1,280 visual tokens. CPU offload is explicit in configuration; the CPU memory cap defaults to 8 GiB.
+- **Qwen:** `Qwen/Qwen2.5-VL-7B-Instruct`, **NF4 4-bit weights with double quantization and FP16 compute**, deterministic decoding, SDPA, 16 output tokens per question, 256–1,280 visual tokens. The model is placed on GPU 0 without CPU offload. Quantization uses `bitsandbytes==0.48.1`; some non-linear modules remain FP16. The original checkpoint is downloaded and quantized during loading, so initial downloads are not reduced. This is inference only, not QLoRA training.
 - **OWLv2:** `google/owlv2-base-patch16-ensemble`, FP32, confidence threshold 0.2, class-specific NMS IoU 0.5. These are initial development choices, not calibrated quality guarantees.
 
 The original proposal names `runwayml/stable-diffusion-v1-5`. Its [model-card mirror](https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5) identifies that repository as deprecated. The accessible mirror is used explicitly, not silently substituted at runtime. The requested model revision is resolved to an immutable Hub commit on first use and reused on resume. Main evaluators inherit the exact frozen pilot revisions.
@@ -56,7 +56,7 @@ Every run saves the model commits, scheduler config, package versions, CUDA/GPU 
 
 ## Run in order
 
-All commands accept `--config` and `--output`. Keep the output directory unchanged when resuming. In Colab, place it under mounted Google Drive.
+All commands accept `--config` and `--output`. Use a fresh output directory when upgrading an existing run to NF4, as described below. Keep the output directory unchanged when resuming. In Colab, place it under mounted Google Drive.
 
 ### 1. Technical smoke tests
 
@@ -89,7 +89,7 @@ Once satisfied with the development decisions:
 attribute-interference freeze-evaluator --config configs/pilot_sdxl.yaml --output outputs/pilot_sdxl
 ```
 
-The freeze records settings, source, exact evaluator model commits, annotation hash and per-factor development agreement counts. It requires exactly the selected 24 reviewed images and at least one known human/automatic comparison per factor. This is development calibration, **not** the final 150-image held-out evaluator test or the proposal's full 200-image annotation exercise. Control-question yes-bias analysis and final inferential statistics remain follow-up work.
+The freeze records settings, source, exact evaluator model commits, annotation hash and per-factor development agreement counts. It requires exactly the selected 24 reviewed images and at least one known human/automatic comparison per factor. This is development calibration, **not** the final 150-image held-out evaluator test or the proposal's full 200-image annotation exercise. Control-question yes-bias analysis remains follow-up work.
 
 ### 3. Full first baseline
 
@@ -106,7 +106,7 @@ Main evaluation requires the matching frozen pilot settings. Generation is compl
 
 The full SD 1.5 baseline was run in Google Colab with `notebooks/sd15_baseline_generation_evaluation.ipynb`. The notebook contains every stage in order: repository setup, dependencies, GPU check, Google Drive mount, smoke test, generation, generation summary, OWLv2 evaluation, Qwen evaluation, progress check and analysis. All stages are resumable, so rerunning the notebook on an existing output directory skips completed work.
 
-**Environment.** Google Colab, NVIDIA Tesla T4 (14.6 GiB), Python 3.13, pinned stack from `requirements-colab.txt` plus `bitsandbytes==0.47.0`. Source commit `0de4f3a` (the `src/` and `configs/` directories are unchanged since). Outputs were written to Google Drive under `attribute_interference/v1/`.
+**Environment.** Google Colab, NVIDIA Tesla T4 (14.6 GiB), Python 3.13, pinned stack from `requirements-colab.txt` plus `bitsandbytes==0.47.0`. Source commit `0de4f3a`; later commits change `src/` and `configs/`, so `analyze` on this run directory reports a source mismatch. Outputs were written to Google Drive under `attribute_interference/v1/`.
 
 ### Stages
 
@@ -151,9 +151,26 @@ To replace the preliminary evaluation: run the SDXL development pilot, review th
 
 Generation and evaluation save an atomic JSON record per image to persistent storage. The generation manifest is a derived JSONL export, refreshed when the generator returns; after a hard notebook termination the per-image records remain authoritative. Rerunning generation reconstructs the manifest. A saved PNG without its completed record is regenerated. Missing/corrupt/hash-mismatched images are regenerated; evaluation caches are keyed by image hash.
 
-Qwen and OWLv2 are loaded sequentially. Run `evaluate --backend qwen` and `evaluate --backend owl` separately if desired. CPU offload is slower and still needs sufficient RAM. If Qwen cannot fit, retain the saved artifacts and use a larger GPU. No automatic quantization or model substitution occurs. Changing inference settings, source files, Python or package versions requires a separate output directory. A replacement GPU may continue the run with unchanged software/settings: each image records its hardware environment ID. Such hardware changes can affect reproducibility and must be disclosed; the summary lists generation environment IDs.
+Qwen and OWLv2 are loaded sequentially. Run `evaluate --backend qwen` and `evaluate --backend owl` separately if desired. CPU offload is slower and still needs sufficient RAM. If Qwen cannot fit, retain the saved artifacts and use a larger GPU. NF4 quantization is explicit in the supplied configs; no automatic model substitution occurs. To use the original FP16 mode in a separate experiment, set `qwen_quantization: none` and choose CPU offload explicitly. NF4 and CPU offload cannot be combined by this implementation. Changing inference settings, source files, Python or package versions requires a separate output directory. A replacement GPU may continue the run with unchanged software/settings: each image records its hardware environment ID. Such hardware changes can affect reproducibility and must be disclosed; the summary lists generation environment IDs.
 
 Colab [does not guarantee a GPU type or uninterrupted resources](https://research.google.com/colaboratory/faq.html). Do not assume the full experiment finishes in one session. Record timings from the actual run; no runtime estimate is presented as measured evidence.
+
+## Switching an existing Colab run to NF4
+
+Use the updated notebook and source archive. It extracts into `/content/cv_project_nf4` and saves new runs under `MyDrive/attribute_interference/v2_nf4`, leaving original `v1` outputs unchanged. Installation skips already matching package pins and normally adds only bitsandbytes to an existing setup. Restart the session after installation; preflight imports run in a child process to release RAM. Smoke commands now run in separate cells and print the current stage.
+
+The optional migration cell copies verified images from `v1` into prepared NF4 runs. It requires identical dataset and generator configurations and matching input hashes. Corrupt/missing images and failed generations are skipped. It preserves original checkpoint, timing, environment and source provenance. It copies **no evaluator outputs, human reviews or freezes**. Stop any previous run before migrating. If interrupted during copying, the destination remains a separate run; remaining images can be generated by the normal resume command.
+
+Equivalent CLI commands for one run:
+
+```bash
+attribute-interference prepare --config configs/smoke.yaml --output outputs/smoke_nf4
+attribute-interference reuse-generation --config configs/smoke.yaml --output outputs/smoke_nf4 --from-run outputs/smoke_sd15
+attribute-interference generate --config configs/smoke.yaml --output outputs/smoke_nf4
+attribute-interference evaluate --config configs/smoke.yaml --output outputs/smoke_nf4 --backend qwen --limit 1
+```
+
+NF4 changes evaluator behavior: repeat pilot evaluation, human review and freeze before main evaluation. Report the quantized evaluator configuration. GPU memory reduction is expected, but speed and accuracy must be measured on the actual T4; no speedup is promised. NF4 does not accelerate SD image generation or eliminate the initial original-checkpoint download. See [Transformers bitsandbytes guidance](https://huggingface.co/docs/transformers/v4.57.1/quantization/bitsandbytes).
 
 ## Data loading, preprocessing and labeling
 
@@ -173,7 +190,7 @@ Position is correct only if **all detected main-object centers** lie strictly in
 | `labels.csv` | Combined and individual evaluator labels; blank means unknown/inactive |
 | `review/` | Blind gallery, human annotation sheet and selected-image hashes |
 | `analysis/summary.json` | Completion flags, error counts and all numeric summaries |
-| `analysis/*.csv`, `analysis/*.png` | Attribute/complexity results and interference matrix |
+| `analysis/*.csv`, `analysis/*.png` | Attribute/complexity results, interference matrix and forest plot, non-additivity |
 | `analysis/failure_cases.html` | Up to six actual failures with prompts, for visual verification |
 
 - **Attribute accuracy:** correct / known applicable labels. Coverage is known / all requested jobs, so missing generations and unknown answers remain visible.
@@ -181,6 +198,9 @@ Position is correct only if **all detected main-object centers** lie strictly in
 - **Complexity:** number of active C/N/P/M/O2 factors; the object is always present. Zero-factor prompts evaluate object presence only.
 - **Interference Δ(A,B):** mean `A_after − A_before` over same-seed pairs adding B, where A is already requested, object presence is true in both images and A labels are known. Negative values indicate interference. Counts expose exclusions.
 - **Flip rate:** correct→incorrect transitions / all eligible pairs. `conditional_loss_rate` also reports transitions / initially correct eligible pairs; these denominators are intentionally distinct.
+- **McNemar:** exact two-sided binomial test on discordant pairs (`flips` correct→incorrect vs `gains` incorrect→correct) per Δ(A,B) cell, Holm-adjusted over all 20 cells (`mcnemar_p_holm`). Pairs share objects and seeds, so the p-values treat correlated pairs as independent; use the bootstrap CIs as the primary uncertainty estimate.
+- **Bootstrap CIs:** 95% percentile intervals from 2,000 cluster-bootstrap draws (seed 0) resampling objects with all their prompts and seeds. Reported for Δ, flip rate, strict accuracy by complexity and non-additivity.
+- **Non-additivity:** for checked factor A and a set S of k ≥ 2 added factors, observed Δ = accuracy of A in prompt {A}∪S minus in singleton {A} (same object and seed, object present in both), additive prediction = Σ over B∈S of Δ({A}→{A,B}), interaction = observed − prediction. `nonadditivity.csv` lists each (A, S); `nonadditivity_summary.csv` averages interactions over sets of size k. Negative values mean combined factors hurt A more than the sum of their pairwise effects.
 - **Timing:** mean successful generation wall time, including CPU offload and synchronized GPU computation but excluding model loading and PNG saving.
 
 Unknown results are never replaced by zeros. Missing metrics use JSON null/blank CSV cells. Plots do not fabricate observations. Failure examples are automatically identified and need human visual confirmation before a report. The summary marks incomplete runs explicitly.
@@ -189,6 +209,6 @@ Unknown results are never replaced by zeros. Missing metrics use JSON null/blank
 
 Before submission: finish the full SD 1.5 run, inspect coverage/errors and failure examples, and attach a real team Git repository link to the report. No remote repository is configured by this implementation. Keep code/configs/tests and compact reviewed result tables in Git; copy chosen tables and plots to a versioned results directory after a real run. Do not commit checkpoints, tokens or the full image collection.
 
-The report should identify the executed checkpoint revisions, frozen evaluation settings, actual GPU/runtime, observed problems and real metrics. Describe training setup as “No training or fine-tuning; frozen pretrained models used zero-shot.” Future work includes the full SDXL comparison, held-out human agreement/Cohen's kappa, control questions, corrected McNemar tests and mixed-effects analysis.
+The report should identify the executed checkpoint revisions, frozen evaluation settings, actual GPU/runtime, observed problems and real metrics. Describe training setup as “No training or fine-tuning; frozen pretrained models used zero-shot.” Future work includes the full SDXL comparison, held-out human agreement/Cohen's kappa, control questions and mixed-effects analysis.
 
 Official implementation references: [Diffusers CPU offload](https://huggingface.co/docs/diffusers/main/en/optimization/memory), [Qwen2.5-VL model card](https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct), [OWLv2 processor and inference](https://huggingface.co/docs/transformers/model_doc/owlv2).

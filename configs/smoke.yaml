@@ -17,9 +17,10 @@ evaluation:
   qwen_revision: main
   owl_checkpoint: google/owlv2-base-patch16-ensemble
   owl_revision: main
-  qwen_cpu_offload: true
+  qwen_cpu_offload: false
   cpu_memory: 8GiB
   max_pixels: 1003520
   max_new_tokens: 16
   threshold: 0.2
   nms_iou: 0.5
+  qwen_quantization: nf4

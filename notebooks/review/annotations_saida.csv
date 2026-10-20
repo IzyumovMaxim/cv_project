@@ -1,0 +1,25 @@
+image_id,prompt_id,prompt,active_factors,reviewer,human_object,human_C,human_N,human_P,human_M,human_O2,notes
+6af6996fdf8454f4_s0,6af6996fdf8454f4,a photo of three red plastic baskets on the right side of the image and a white book,C|N|P|M|O2,Saida,true,true,true,false,true,true,3
+0b1c37388b17accd_s0,0b1c37388b17accd,a photo of a black mug,C,Saida,true,true,,,,,1
+7efd1d77b2173a54_s0,7efd1d77b2173a54,a photo of four red rabbits and a yellow plate,C|N|O2,Saida,true,true,false,,,true,5
+a5afa438b3e1d017_s1,a5afa438b3e1d017,a photo of a red rabbit on the right side of the image,C|P,Saida,true,true,,false,,,1
+dfd17909ebdca18e_s0,dfd17909ebdca18e,a photo of a black wooden mug on the right side of the image and a green backpack,C|P|M|O2,Saida,true,true,,false,false,true,1
+985d4cbc25a3fd49_s1,985d4cbc25a3fd49,a photo of a basket,,Saida,true,,,,,,1
+18760f424d72f7d9_s0,18760f424d72f7d9,a photo of three red plastic baskets,C|N|M,Saida,true,true,true,,true,,3
+1d96bff1de465664_s1,1d96bff1de465664,a photo of a mug on the right side of the image,P,Saida,true,,,false,,,1
+c5948c0ad650ba2a_s0,c5948c0ad650ba2a,a photo of four red rabbits,C|N,Saida,true,false,false,,,,3
+dbf7657619eaab1a_s1,dbf7657619eaab1a,a photo of three red plastic baskets on the right side of the image,C|N|P|M,Saida,true,true,false,false,true,,12
+afdac3d247f50350_s1,afdac3d247f50350,a photo of a rabbit,,Saida,true,,,,,,1
+c675b9bc4f9f84bb_s0,c675b9bc4f9f84bb,a photo of four black wooden mugs on the right side of the image and a green backpack,C|N|P|M|O2,Saida,true,true,true,false,false,false,4
+779393f871849331_s0,779393f871849331,a photo of a plastic basket on the right side of the image and a white book,P|M|O2,Saida,true,,,true,false,true,1
+4951b728941bd117_s1,4951b728941bd117,a photo of four mugs and a green backpack,N|O2,Saida,true,,false,,,true,6
+d6a19e32478e48a4_s1,d6a19e32478e48a4,a photo of a red rabbit,C,Saida,true,true,,,,,1
+5c3e06b1db03dbd8_s0,5c3e06b1db03dbd8,a photo of four black wooden mugs and a green backpack,C|N|M|O2,Saida,true,true,false,,false,false,6
+6af6996fdf8454f4_s1,6af6996fdf8454f4,a photo of three red plastic baskets on the right side of the image and a white book,C|N|P|M|O2,Saida,true,true,false,false,true,false,4
+afdac3d247f50350_s0,afdac3d247f50350,a photo of a rabbit,,Saida,true,,,,,,1
+1d13793a6f2ff783_s0,1d13793a6f2ff783,a photo of four wooden mugs and a green backpack,N|M|O2,Saida,true,,false,,true,true,6
+d2573e9f4d46068e_s0,d2573e9f4d46068e,a photo of three red baskets,C|N,Saida,true,true,true,,,,3
+d14686704a4e9fd7_s1,d14686704a4e9fd7,a photo of four red rabbits on the right side of the image and a yellow plate,C|N|P|O2,Saida,true,true,true,false,,true,4
+6093b305ec82847d_s1,6093b305ec82847d,a photo of three baskets,N,Saida,true,,false,,,,6
+97a30fa70ca4af2d_s1,97a30fa70ca4af2d,a photo of a mug,,Saida,true,,,,,,1
+c675b9bc4f9f84bb_s1,c675b9bc4f9f84bb,a photo of four black wooden mugs on the right side of the image and a green backpack,C|N|P|M|O2,Saida,true,true,false,false,false,false,6

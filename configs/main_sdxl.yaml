@@ -14,7 +14,7 @@ generation:
   height: 1024
   steps: 30
   guidance_scale: 7.5
-  cpu_offload: true
+  cpu_offload: false
 evaluation:
   qwen_checkpoint: Qwen/Qwen2.5-VL-7B-Instruct
   qwen_revision: main

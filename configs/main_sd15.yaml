@@ -9,7 +9,7 @@ dataset:
 generation:
   family: sd15
   checkpoint: stable-diffusion-v1-5/stable-diffusion-v1-5
-  revision: main
+  revision: 451f4fe16113bff5a5d2269ed5ad43b0592e9a14
   width: 512
   height: 512
   steps: 30
@@ -17,9 +17,9 @@ generation:
   cpu_offload: true
 evaluation:
   qwen_checkpoint: Qwen/Qwen2.5-VL-7B-Instruct
-  qwen_revision: main
+  qwen_revision: cc594898137f460bfe9f0759e9844b3ce807cfb5
   owl_checkpoint: google/owlv2-base-patch16-ensemble
-  owl_revision: main
+  owl_revision: cfd3195ba4ea9592eec887ded089f4c08eff231d
   qwen_cpu_offload: false
   cpu_memory: 8GiB
   max_pixels: 1003520

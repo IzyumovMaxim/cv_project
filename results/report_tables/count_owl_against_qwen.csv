@@ -1,0 +1,2 @@
+images,owl_exact,qwen_exact,exact_mcnemar_p,owl_mean_absolute_error,qwen_mean_absolute_error,owl_larger_error,qwen_larger_error,absolute_error_wilcoxon_p
+88,26,64,1.6183321349672042e-09,2.602272727272727,0.3977272727272727,57,4,9.551478042576533e-11

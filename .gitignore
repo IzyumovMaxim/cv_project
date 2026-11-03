@@ -13,3 +13,7 @@ outputs/*
 *.pt
 build/
 dist/
+.idea/
+results/failure_candidates/thumbs/
+results/failure_candidates/sheets/
+results/failure_candidates/gallery.html

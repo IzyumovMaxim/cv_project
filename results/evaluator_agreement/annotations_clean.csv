@@ -1,0 +1,151 @@
+image_id,prompt_id,prompt,active_factors,reviewer,human_object,human_C,human_N,human_P,human_M,human_O2,notes
+237f4075229b3a82_s1,237f4075229b3a82,a photo of a green glass stool and a blue book,C|M|O2,Saida,true,true,,,true,false,1
+56d19a69d71ad1d6_s2,56d19a69d71ad1d6,a photo of a blue bench on the left side of the image and a black plate,C|P|O2,Saida,true,true,,true,,false,1
+f8fd131b6c74a407_s1,f8fd131b6c74a407,a photo of a wooden table on the left side of the image,P|M,Saida,true,,,false,true,,1
+7e7a230c877a4194_s2,7e7a230c877a4194,a photo of three wooden toy cars on the left side of the image,N|P|M,Saida,true,,true,false,true,,3
+0a4a9df7d8b768b6_s2,0a4a9df7d8b768b6,a photo of four black tables on the left side of the image and a blue umbrella,C|N|P|O2,Saida,true,false,,false,,true,2
+05686e28c53c6d6c_s0,05686e28c53c6d6c,a photo of three white toy cars,C|N,Saida,true,false,false,,,,4
+6bb7fd995c05be28_s3,6bb7fd995c05be28,a photo of four black wooden vases on the right side of the image,C|N|P|M,Saida,true,true,true,false,false,,4
+0fed6ef92eb21069_s0,0fed6ef92eb21069,a photo of a white wooden toy car on the left side of the image and a black umbrella,C|P|M|O2,Saida,true,true,,false,true,true,1
+08b9e56e8acb77b8_s2,08b9e56e8acb77b8,a photo of a blue plastic bottle and a yellow plate,C|M|O2,Saida,true,false,,,true,false,1
+c1499a2a773a4ebf_s2,c1499a2a773a4ebf,a photo of three chairs,N,Saida,true,,true,,,,3
+1d1af47990f8ff6e_s1,1d1af47990f8ff6e,a photo of a yellow tray and a green plate,C|O2,Saida,true,true,,,,false,1
+c6eb995670b59893_s3,c6eb995670b59893,a photo of two plastic cups,N|M,Saida,true,,false,,true,,3
+1df0b3bf340616cb_s0,1df0b3bf340616cb,a photo of a cat on the left side of the image,P,Saida,true,,,false,,,1
+7f60abfae30b88f6_s3,7f60abfae30b88f6,a photo of a metal bowl on the right side of the image,P|M,Saida,true,,,false,true,,1
+66dedda4ee43f052_s0,66dedda4ee43f052,a photo of four yellow buckets,C|N,Saida,true,false,false,,,,6
+9b97f8e1e8e6aaad_s2,9b97f8e1e8e6aaad,a photo of four yellow spoons on the left side of the image and a blue umbrella,C|N|P|O2,Saida,true,true,true,false,,true,4
+479e28f956183414_s1,479e28f956183414,a photo of a black metal ball on the right side of the image,C|P|M,Saida,true,true,,false,false,,1
+e3740098a023c93a_s3,e3740098a023c93a,a photo of two black plastic cups and a white plate,C|N|M|O2,Saida,true,true,true,,true,false,2
+cfb3e869048084d5_s1,cfb3e869048084d5,a photo of three black balls on the right side of the image and a white umbrella,C|N|P|O2,Saida,false,false,false,false,,true,0
+8ee0c6a343347a60_s2,8ee0c6a343347a60,a photo of three blue boxes on the right side of the image,C|N|P,Saida,true,true,false,false,,,4
+4338f6d1a07fdd15_s1,4338f6d1a07fdd15,a photo of four cats on the left side of the image,N|P,Saida,true,,true,false,,,4
+d8e62d0b47e5c1a9_s0,d8e62d0b47e5c1a9,a photo of a red glass clock and a black plate,C|M|O2,Saida,true,false,,,true,false,1
+12d15fbf4220970a_s3,12d15fbf4220970a,a photo of a metal bowl on the right side of the image and a white plate,P|M|O2,Saida,true,,,false,true,true,1
+285e01362c2ac0db_s1,285e01362c2ac0db,a photo of three metal lamps on the right side of the image,N|P|M,Saida,true,,false,false,true,,5
+1930c80fdae85ba3_s0,1930c80fdae85ba3,a photo of a black bird on the right side of the image,C|P,Saida,true,true,,false,,,1
+351a7b9fab4814f1_s3,351a7b9fab4814f1,a photo of a blue bottle and a yellow plate,C|O2,Saida,true,true,,,,true,1
+77b5414cc27b4a97_s0,77b5414cc27b4a97,a photo of a tray and a green plate,O2,Saida,false,,,,,true,0
+f145c018976f6a04_s3,f145c018976f6a04,a photo of four wooden tables on the left side of the image and a blue umbrella,N|P|M|O2,Saida,true,,false,false,true,true,12
+cec93147c710e75d_s1,cec93147c710e75d,a photo of four red glass clocks,C|N|M,Saida,true,true,false,,true,,6
+3e88c8232ae3295a_s2,3e88c8232ae3295a,a photo of a glass spoon on the left side of the image and a blue umbrella,P|M|O2,Saida,true,,,false,false,false,1
+4889f5f414f72a70_s2,4889f5f414f72a70,a photo of a plastic bottle on the right side of the image and a yellow plate,P|M|O2,Saida,true,,,false,true,false,1
+a2607ed34bd91e5f_s1,a2607ed34bd91e5f,a photo of a bird and a red backpack,O2,Saida,true,,,,,true,1
+b5add6764ab8ee0b_s1,b5add6764ab8ee0b,a photo of four metal buckets on the left side of the image and a green backpack,N|P|M|O2,Saida,true,,false,false,false,false,9
+a12963a344130051_s2,a12963a344130051,a photo of four stools and a blue book,N|O2,Saida,true,,false,,,false,2
+16c2e5a0d0cf88c6_s0,16c2e5a0d0cf88c6,a photo of a yellow plastic tray on the right side of the image,C|P|M,Saida,false,true,,false,true,,0
+3af11c79d1249ead_s3,3af11c79d1249ead,a photo of four blue cats on the left side of the image and a yellow plate,C|N|P|O2,Saida,true,true,true,false,,true,4
+7edffa94e5dbe868_s3,7edffa94e5dbe868,a photo of a tray on the right side of the image,P,Saida,true,,,false,,,1
+d0ebc9eecb713948_s1,d0ebc9eecb713948,a photo of a yellow plastic tray,C|M,Saida,true,true,,,true,,1
+730d624634fa17f6_s2,730d624634fa17f6,a photo of three blue glass boxes and a yellow umbrella,C|N|M|O2,Saida,true,false,true,,true,false,3
+d18d348eb7189210_s2,d18d348eb7189210,a photo of a wooden table,M,Saida,false,,,,true,,0
+8edaaab897a71d13_s2,8edaaab897a71d13,a photo of a metal bowl,M,Saida,true,,,,true,,1
+227631371a4b3a3d_s3,227631371a4b3a3d,a photo of a blue glass box on the right side of the image and a yellow umbrella,C|P|M|O2,Saida,true,true,,false,true,true,1
+5120aff4292a28f4_s0,5120aff4292a28f4,a photo of a bucket on the left side of the image,P,Saida,true,,,false,,,2
+f4b70e6bc596caab_s3,f4b70e6bc596caab,a photo of four black wooden tables on the left side of the image and a blue umbrella,C|N|P|M|O2,Saida,true,false,false,false,false,false,7
+39ffcc3c069217ef_s3,39ffcc3c069217ef,a photo of four blue cats and a yellow plate,C|N|O2,Saida,true,true,false,,,true,2
+536e2f020cadba02_s1,536e2f020cadba02,a photo of three glass chairs and a red book,N|M|O2,Saida,true,,false,,true,false,2
+bb2cb9ee44b4994f_s2,bb2cb9ee44b4994f,a photo of a yellow metal bowl on the right side of the image and a white plate,C|P|M|O2,Saida,true,true,,false,true,false,1
+6b61c7d740f85cc2_s0,6b61c7d740f85cc2,a photo of a glass box on the right side of the image,P|M,Saida,true,,,false,false,,1
+99032fec56dfb399_s3,99032fec56dfb399,a photo of a white wooden toy car,C|M,Saida,true,true,,,true,,1
+fbb9639891bb249b_s2,fbb9639891bb249b,a photo of a glass chair on the left side of the image and a red book,P|M|O2,Saida,true,,,true,true,true,1
+bb6a1c5c59d1d825_s3,bb6a1c5c59d1d825,a photo of three glass chairs on the left side of the image and a red book,N|P|M|O2,Saida,true,,false,false,true,false,4
+aca59ae9ea03a000_s2,aca59ae9ea03a000,a photo of four buckets on the left side of the image,N|P,Saida,true,,true,false,,,4
+6309dd72bd4d0aee_s0,6309dd72bd4d0aee,a photo of a black wooden table on the left side of the image and a blue umbrella,C|P|M|O2,Saida,true,true,,false,true,true,1
+9a9607c7bfac9234_s2,9a9607c7bfac9234,a photo of three balls,N,Saida,true,,true,,,,3
+d4599aac7793a011_s1,d4599aac7793a011,a photo of a metal ball and a white umbrella,M|O2,Saida,false,,,,false,false,0
+3cb1326d01c0f3b3_s1,3cb1326d01c0f3b3,a photo of a plastic cup,M,Saida,true,,,,true,,1
+045e613386a806d7_s3,045e613386a806d7,a photo of two horses on the right side of the image,N|P,Saida,true,,true,false,,,2
+40581332a4d7254d_s2,40581332a4d7254d,a photo of two green horses on the right side of the image,C|N|P,Saida,true,true,true,false,,,2
+df866a132e10b599_s3,df866a132e10b599,a photo of two horses and a black book,N|O2,Saida,true,,true,,,false,2
+822bfa20a0c7b3b8_s0,822bfa20a0c7b3b8,a photo of four buckets on the left side of the image and a green backpack,N|P|O2,Saida,true,,false,false,,false,5
+e9a6dac8f4829c57_s1,e9a6dac8f4829c57,a photo of four glass stools on the left side of the image,N|P|M,Saida,true,,false,,true,,5
+d99671dad9336278_s1,d99671dad9336278,a photo of three green chairs on the left side of the image and a red book,C|N|P|O2,Saida,true,true,false,false,,false,5
+fb18c73ef5eb7c89_s0,fb18c73ef5eb7c89,a photo of three blue dogs on the left side of the image and a yellow plate,C|N|P|O2,Saida,true,false,true,false,,true,3
+b312440d5afcbf93_s3,b312440d5afcbf93,a photo of a yellow spoon on the left side of the image,C|P,Saida,true,true,,false,,,1
+c2b78f20f1a69e6a_s3,c2b78f20f1a69e6a,a photo of three boxes,N,Saida,true,,false,,,,4
+43d391dd0454659a_s0,43d391dd0454659a,a photo of two birds,N,Saida,true,,true,,,,2
+497ab13e0a68fa0c_s0,497ab13e0a68fa0c,a photo of four stools,N,Saida,true,,true,,,,4
+5a4c3d09a2f75f0e_s0,5a4c3d09a2f75f0e,a photo of three chairs on the left side of the image and a red book,N|P|O2,Saida,true,,true,false,,false,3
+5be48f59f768db50_s3,5be48f59f768db50,a photo of a yellow bowl,C,Saida,true,true,,,,,1
+3bdba2057eba7cdc_s0,3bdba2057eba7cdc,a photo of four red glass clocks on the right side of the image,C|N|P|M,Saida,true,true,false,false,true,,2
+c0510452b95b300f_s0,c0510452b95b300f,a photo of two yellow plastic trays on the right side of the image,C|N|P|M,Saida,true,true,false,false,true,,4
+2ea37da8dd959a72_s0,2ea37da8dd959a72,a photo of three metal lamps and a green umbrella,N|M|O2,Saida,true,,,,true,false,4
+bdf425f894db7d8c_s3,bdf425f894db7d8c,a photo of a bowl on the right side of the image,P,Saida,true,,,false,,,1
+96d78c41859e196c_s2,96d78c41859e196c,a photo of a metal bench on the left side of the image,P|M,Saida,true,,,false,true,,1
+64db0aa47c5be007_s0,64db0aa47c5be007,a photo of a glass box,M,Saida,true,,,,true,,1
+94ae1edb74ade627_s2,94ae1edb74ade627,a photo of four red glass clocks on the right side of the image and a black plate,C|N|P|M|O2,Saida,true,true,false,false,false,false,5
+ff82f02880b1f818_s1,ff82f02880b1f818,a photo of four yellow glass spoons on the left side of the image,C|N|P|M,Saida,true,true,true,false,false,,4
+4d1c233e588309e1_s3,4d1c233e588309e1,a photo of three black metal balls on the right side of the image and a white umbrella,C|N|P|M|O2,Saida,true,true,false,false,false,true,12
+03016975eb41ce55_s1,03016975eb41ce55,a photo of four yellow metal bowls and a white plate,C|N|M|O2,Saida,true,false,false,,false,true,3
+49eb6e3179e7908c_s0,49eb6e3179e7908c,a photo of a glass clock,M,Saida,true,,,,true,,1
+589d0d09b491a3ba_s2,589d0d09b491a3ba,a photo of a black metal ball and a white umbrella,C|M|O2,Saida,true,true,,,true,true,1
+6aa83b09301356ab_s0,6aa83b09301356ab,a photo of a bench and a black plate,O2,Saida,true,,,,,false,1
+fe5a855a3cbd9e70_s2,fe5a855a3cbd9e70,a photo of a horse on the right side of the image,P,Saida,true,,,false,,,1
+d714813432ef9f7d_s0,d714813432ef9f7d,a photo of four cats and a yellow plate,N|O2,Saida,true,,false,,,true,5
+5a2981348d12b440_s2,5a2981348d12b440,a photo of three red metal lamps on the right side of the image,C|N|P|M,Saida,true,true,false,false,true,,4
+0fe8472cb262c69c_s0,0fe8472cb262c69c,a photo of two cups on the left side of the image,N|P,Saida,true,,true,false,,,2
+8f85a30b28328645_s1,8f85a30b28328645,a photo of a blue bench,C,Saida,true,true,,,,,1
+1e5ff41bbfbff4fc_s0,1e5ff41bbfbff4fc,a photo of three glass boxes on the right side of the image and a yellow umbrella,N|P|M|O2,Saida,true,,false,false,true,false,4
+ea054e38ad41f8d5_s3,ea054e38ad41f8d5,a photo of a vase and a yellow umbrella,O2,Saida,true,,,,,true,1
+120bbc199728d93e_s1,120bbc199728d93e,a photo of two green horses and a black book,C|N|O2,Saida,true,true,true,,,true,2
+fdf62d2eaf5d52f4_s3,fdf62d2eaf5d52f4,a photo of four yellow glass spoons and a blue umbrella,C|N|M|O2,Saida,true,true,false,,false,false,5
+7cd052964d40a3ec_s1,7cd052964d40a3ec,a photo of a black cup and a white plate,C|O2,Saida,true,true,,,,true,1
+d3d8eb91f8b55f5d_s3,d3d8eb91f8b55f5d,a photo of a black bird on the right side of the image and a red backpack,C|P|O2,Saida,true,true,,false,,true,3
+37df236efd28c419_s1,37df236efd28c419,a photo of a bird on the right side of the image and a red backpack,P|O2,Saida,true,,,false,,true,1
+64a7a2e4b436318d_s2,64a7a2e4b436318d,a photo of four green glass stools on the left side of the image and a blue book,C|N|P|M|O2,Saida,true,true,false,false,true,false,2
+e9e226eda3b2fff5_s1,e9e226eda3b2fff5,a photo of a green horse,C,Saida,true,true,,,,,1
+70f4e17868eb981b_s2,70f4e17868eb981b,a photo of three plastic bottles,N|M,Saida,true,,true,,true,,3
+9d281863fe8c8bbb_s3,9d281863fe8c8bbb,a photo of four yellow glass spoons on the left side of the image and a blue umbrella,C|N|P|M|O2,Saida,true,false,false,false,false,false,7
+a513baf5d8f13ac4_s3,a513baf5d8f13ac4,a photo of a red metal lamp on the right side of the image and a green umbrella,C|P|M|O2,Saida,false,,,false,false,false,0
+724d11a2b04aa8ff_s0,724d11a2b04aa8ff,a photo of two black cups on the left side of the image,C|N|P,Saida,true,true,true,false,,,2
+9d281863fe8c8bbb_s0,9d281863fe8c8bbb,a photo of four yellow glass spoons on the left side of the image and a blue umbrella,C|N|P|M|O2,Saida,true,false,false,false,false,true,3
+9f63b036e6e5bfb1_s3,9f63b036e6e5bfb1,a photo of four green glass stools,C|N|M,Saida,true,true,false,,true,,5
+6a2a30e744127293_s0,6a2a30e744127293,a photo of a blue bottle,C,Saida,true,true,,,,,1
+48783e4c4045d380_s1,48783e4c4045d380,a photo of a blue cat,C,Saida,true,true,,,,,1
+cfce3e07019e50be_s2,cfce3e07019e50be,a photo of four cats on the left side of the image and a yellow plate,N|P|O2,Saida,true,,false,false,,false,3
+854cb5780056934a_s1,854cb5780056934a,a photo of a red lamp on the right side of the image,C|P,Saida,true,false,,true,,,1
+b124e80daf425314_s0,b124e80daf425314,a photo of three blue plastic bottles on the right side of the image and a yellow plate,C|N|P|M|O2,Saida,true,true,true,false,true,true,3
+ef28914c557ad62d_s2,ef28914c557ad62d,a photo of a wooden toy car and a black umbrella,M|O2,Saida,true,,,,true,true,1
+746fe8a0e5d61a29_s2,746fe8a0e5d61a29,a photo of four black wooden vases and a yellow umbrella,C|N|M|O2,Saida,true,false,false,,false,true,5
+5d7b76bf152faedc_s3,5d7b76bf152faedc,a photo of three wooden toy cars,N|M,Saida,true,,true,,true,,2
+2694327f2839bce8_s2,2694327f2839bce8,a photo of four red glass clocks and a black plate,C|N|M|O2,Saida,true,false,false,,false,false,6
+2211a4abd94853a0_s2,2211a4abd94853a0,a photo of a glass stool and a blue book,M|O2,Saida,true,,,,true,false,1
+f4b70e6bc596caab_s0,f4b70e6bc596caab,a photo of four black wooden tables on the left side of the image and a blue umbrella,C|N|P|M|O2,Saida,true,true,true,false,true,true,4
+cdc2468937782175_s2,cdc2468937782175,a photo of three blue metal benches on the left side of the image,C|N|P|M,Saida,true,true,false,false,true,,7
+8f04226368ba6449_s1,8f04226368ba6449,a photo of two yellow plastic trays on the right side of the image and a green plate,C|N|P|M|O2,Saida,true,false,true,false,true,false,2
+4d1c233e588309e1_s2,4d1c233e588309e1,a photo of three black metal balls on the right side of the image and a white umbrella,C|N|P|M|O2,Saida,true,true,false,false,false,true,4
+627e2473ac55e5bc_s1,627e2473ac55e5bc,a photo of three blue metal benches on the left side of the image and a black plate,C|N|P|M|O2,Saida,true,true,true,false,true,false,3
+d2152439cc569e1f_s1,d2152439cc569e1f,a photo of a plastic bottle,M,Saida,true,,,,true,,1
+6aa855edb3715426_s3,6aa855edb3715426,a photo of three blue dogs and a yellow plate,C|N|O2,Saida,true,false,false,,,true,5
+2836dd7a0df0dc27_s2,2836dd7a0df0dc27,a photo of four yellow metal buckets on the left side of the image and a green backpack,C|N|P|M|O2,Saida,true,false,false,false,true,false,3
+d7f4e5aa33210c62_s3,d7f4e5aa33210c62,a photo of four wooden vases on the right side of the image and a yellow umbrella,N|P|M|O2,Saida,true,,true,false,true,true,4
+2c25b6c89dcbb01c_s2,2c25b6c89dcbb01c,a photo of a black bird,C,Saida,true,true,,,,,1
+31b4d61ee9680166_s3,31b4d61ee9680166,a photo of a blue dog and a yellow plate,C|O2,Saida,false,false,,,,true,0
+8f04226368ba6449_s0,8f04226368ba6449,a photo of two yellow plastic trays on the right side of the image and a green plate,C|N|P|M|O2,Saida,true,false,false,false,true,true,3
+1e37011f03270cad_s3,1e37011f03270cad,a photo of three white wooden toy cars on the left side of the image and a black umbrella,C|N|P|M|O2,Saida,true,true,false,true,false,true,2
+7443078879f81647_s0,7443078879f81647,a photo of three dogs,N,Saida,true,,true,,,,3
+822474d005a6158d_s2,822474d005a6158d,a photo of four yellow metal buckets,C|N|M,Saida,true,true,false,,true,,5
+8fbd29f80ea4f7f0_s1,8fbd29f80ea4f7f0,a photo of a dog and a yellow plate,O2,Saida,true,,,,,true,1
+457653c2784f4715_s1,457653c2784f4715,a photo of a black wooden vase on the right side of the image and a yellow umbrella,C|P|M|O2,Saida,true,true,,false,false,true,2
+31cc470685c96500_s0,31cc470685c96500,a photo of three blue dogs on the left side of the image,C|N|P,Saida,true,false,true,false,,,3
+7a2ec5776f20e27d_s3,7a2ec5776f20e27d,a photo of a black bird and a red backpack,C|O2,Saida,true,true,,,,true,1
+2836dd7a0df0dc27_s1,2836dd7a0df0dc27,a photo of four yellow metal buckets on the left side of the image and a green backpack,C|N|P|M|O2,Saida,true,false,false,false,false,true,3
+fded3d79bed6a07f_s1,fded3d79bed6a07f,a photo of four black wooden vases on the right side of the image and a yellow umbrella,C|N|P|M|O2,Saida,true,false,false,false,true,true,5
+94ae1edb74ade627_s1,94ae1edb74ade627,a photo of four red glass clocks on the right side of the image and a black plate,C|N|P|M|O2,Saida,true,true,false,false,true,false,8
+c53cc5d57c5746e9_s0,c53cc5d57c5746e9,a photo of two black plastic cups on the left side of the image and a white plate,C|N|P|M|O2,Saida,true,true,true,false,true,true,2
+5cf8dc60e827871b_s1,5cf8dc60e827871b,a photo of three green glass chairs on the left side of the image and a red book,C|N|P|M|O2,Saida,true,true,false,false,true,false,5
+62ea4ccbcd313669_s0,62ea4ccbcd313669,a photo of four yellow metal bowls on the right side of the image and a white plate,C|N|P|M|O2,Saida,true,false,true,false,false,false,4
+b124e80daf425314_s1,b124e80daf425314,a photo of three blue plastic bottles on the right side of the image and a yellow plate,C|N|P|M|O2,Saida,true,false,false,false,true,false,5
+fded3d79bed6a07f_s3,fded3d79bed6a07f,a photo of four black wooden vases on the right side of the image and a yellow umbrella,C|N|P|M|O2,Saida,true,true,true,false,true,true,4
+b191049a9a8a13d1_s2,b191049a9a8a13d1,a photo of a horse and a black book,O2,Saida,true,,,,,true,1
+64a7a2e4b436318d_s3,64a7a2e4b436318d,a photo of four green glass stools on the left side of the image and a blue book,C|N|P|M|O2,Saida,true,true,false,false,true,false,7
+1340e071494c047b_s0,1340e071494c047b,a photo of a dog on the left side of the image,P,Saida,true,,,false,,,1
+4288a7e75cf062f6_s1,4288a7e75cf062f6,a photo of three red metal lamps on the right side of the image and a green umbrella,C|N|P|M|O2,Saida,true,true,false,false,true,true,6
+627e2473ac55e5bc_s3,627e2473ac55e5bc,a photo of three blue metal benches on the left side of the image and a black plate,C|N|P|M|O2,Saida,true,true,false,false,true,false,4
+c53cc5d57c5746e9_s3,c53cc5d57c5746e9,a photo of two black plastic cups on the left side of the image and a white plate,C|N|P|M|O2,Saida,true,true,true,false,true,true,2
+5cf8dc60e827871b_s3,5cf8dc60e827871b,a photo of three green glass chairs on the left side of the image and a red book,C|N|P|M|O2,Saida,true,true,false,false,true,false,2
+1e37011f03270cad_s1,1e37011f03270cad,a photo of three white wooden toy cars on the left side of the image and a black umbrella,C|N|P|M|O2,Saida,true,false,false,false,false,true,4
+4288a7e75cf062f6_s0,4288a7e75cf062f6,a photo of three red metal lamps on the right side of the image and a green umbrella,C|N|P|M|O2,Saida,false,true,false,false,true,true,0
+5d0c6e06be3fab1b_s0,5d0c6e06be3fab1b,a photo of four glass clocks on the right side of the image and a black plate,N|P|M|O2,Saida,true,,false,false,true,false,2
+668224f4136598c8_s2,668224f4136598c8,a photo of three blue glass boxes on the right side of the image and a yellow umbrella,C|N|P|M|O2,Saida,true,true,false,false,true,true,2

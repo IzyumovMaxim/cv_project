@@ -1,0 +1,7 @@
+image_id,field,raw,clean,kind
+56d19a69d71ad1d6_s2,human_C,Ture,true,typo_fixed
+0fed6ef92eb21069_s0,human_N,True,,inactive_value_ignored
+e3740098a023c93a_s3,human_N,Ture,true,typo_fixed
+bb6a1c5c59d1d825_s3,human_O2,Falsa,false,typo_fixed
+2ea37da8dd959a72_s0,human_C,True,,inactive_value_ignored
+5d0c6e06be3fab1b_s0,human_C,True,,inactive_value_ignored

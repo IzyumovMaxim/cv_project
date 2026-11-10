@@ -131,6 +131,7 @@ These are the Colab notebooks of our original runs.
 | `notebooks/sdxl_generation_evaluation.ipynb` | SDXL pilot, generation and evaluation |
 | `notebooks/sdxl_pilot_freeze_owl_calibration.ipynb` | Pilot human labels and OWLv2 calibration |
 | `notebooks/qwen_yes_bias_control_questions.ipynb` | Qwen control questions on SD 1.5 |
+| `notebooks/demo.ipynb` | Live demo: three prompts through the full pipeline on a Colab T4 |
 
 ## Team
 

@@ -46,7 +46,7 @@ pytest
 Each Drive folder holds the images, raw model answers and labels of one run:
 
 - [SD 1.5 run](https://drive.google.com/drive/folders/1M5MIvXCSDvjzcyqrCS1Tk4d-9o-fkZDL)
-- [SDXL run](https://drive.google.com/drive/folders/1PcPwL9GF4hASAfgz5__eKy9E8HV8jE3H)
+- [SDXL run](https://drive.google.com/drive/folders/1LnJclVA_sjJCcCs-FVpK7MialOcHSeaz)
 
 Set their paths and check the images:
 
